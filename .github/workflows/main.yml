@@ -1,0 +1,13 @@
+name : my 1st aks cluster
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  my_aks_job:
+    name: terraform init and plan
+    runs-on: myaksrunner
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
+  
