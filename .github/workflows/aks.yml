@@ -3,11 +3,18 @@ name : my 1st aks cluster
 on: 
   workflow_dispatch:
 
+permissions: write all
+
 jobs:
   my_aks_job:
     name: terraform init and plan
     runs-on: myaksrunner
+    
+    permissions: 
+      actions: write
+      
     steps: 
       - name: Checkout
         uses: actions/checkout@v5.0.0
   
+   
