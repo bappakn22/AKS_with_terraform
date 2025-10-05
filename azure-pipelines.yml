@@ -59,3 +59,14 @@ stages:
             command: 'apply'
             workingDirectory: $(CONFIG_PATH)
             environmentServiceNameAzureRM: $(SVC_CONNEC)
+
+  - stage: terraform_destroy
+    jobs:
+      - job: terraform_destroy
+        steps:
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'destroy'
+            workingDirectory: $(CONFIG_PATH)
+            environmentServiceNameAzureRM: $(SVC_CONNEC)
