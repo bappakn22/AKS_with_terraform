@@ -53,6 +53,7 @@ stages:
             backendAzureRmKey: 'aks.tfstate'
 
         - task: TerraformTask@5
+          displayName: terraform_apply
           inputs:
             provider: 'azurerm'
             command: 'apply'
