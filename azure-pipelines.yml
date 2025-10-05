@@ -1,0 +1,40 @@
+name: aks_deploy
+
+trigger: none
+
+variables:
+  CONFIG_PATH : '$(System.DefaultWorkingDirectory)'
+  SVC_CONNEC: 'empire_service_connection'
+
+pool: empire_agent_pool
+
+stages:
+  - stage: AKS_cluster_deploy
+    jobs:
+      - job: teraform_init
+        steps:
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: $(CONFIG_PATH)
+            backendServiceArm: $(SVC_CONNEC)
+            backendAzureRmOverrideSubscriptionID: '70d13209-b5da-483b-9f07-a91b9e1a684b'
+            backendAzureRmResourceGroupName: 'bappa-state-rg'
+            backendAzureRmStorageAccountName: 'mstatefiles'
+            backendAzureRmContainerName: 'statefiles'
+            backendAzureRmKey: 'aks.tfstate'
+
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: $(CONFIG_PATH)
+            environmentServiceNameAzureRM: $(SVC_CONNEC)
+        
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/'
+            environmentServiceNameAzureRM: $(SVC_CONNEC)
