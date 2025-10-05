@@ -14,6 +14,33 @@ stages:
       - job: teraform_init
         steps:
         - task: TerraformTask@5
+          displayName: terraform_init_task
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: $(CONFIG_PATH)
+            backendServiceArm: $(SVC_CONNEC)
+            backendAzureRmOverrideSubscriptionID: '70d13209-b5da-483b-9f07-a91b9e1a684b'
+            backendAzureRmResourceGroupName: 'bappa-state-rg'
+            backendAzureRmStorageAccountName: 'mstatefiles'
+            backendAzureRmContainerName: 'statefiles'
+            backendAzureRmKey: 'aks.tfstate'
+
+        - task: TerraformTask@5
+          displayName: Terraform_plan
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: $(CONFIG_PATH)
+            environmentServiceNameAzureRM: $(SVC_CONNEC)
+  
+
+  - stage: terraform_apply
+    jobs:
+      - job: aks_apply
+        steps:
+        - task: TerraformTask@5
+          displayName: terraform_init_task
           inputs:
             provider: 'azurerm'
             command: 'init'
@@ -28,13 +55,6 @@ stages:
         - task: TerraformTask@5
           inputs:
             provider: 'azurerm'
-            command: 'plan'
+            command: 'apply'
             workingDirectory: $(CONFIG_PATH)
-            environmentServiceNameAzureRM: $(SVC_CONNEC)
-        
-        - task: TerraformTask@5
-          inputs:
-            provider: 'azurerm'
-            command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/'
             environmentServiceNameAzureRM: $(SVC_CONNEC)
