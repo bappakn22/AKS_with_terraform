@@ -3,7 +3,7 @@ name: aks_deploy
 trigger: none
 
 variables:
-  CONFIG_PATH : '$(System.DefaultWorkingDirectory)'
+  CONFIG_PATH : '$(System.DefaultWorkingDirectory)/environment/'
   SVC_CONNEC: 'empire_service_connection'
 
 pool: empire_agent_pool
