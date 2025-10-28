@@ -1,0 +1,18 @@
+
+
+trigger: none
+
+stages:
+- stage: 
+  jobs:
+    - deployment: 
+      environment:
+       name: dev
+       resourceType: virtualMachine
+      strategy:
+       runOnce:
+         deploy:
+           steps:
+           - task: CmdLine@2
+             inputs:
+               script: 'cp -r $(System.DefaultWorkingDirectory)/README.md /var/www/html/'
