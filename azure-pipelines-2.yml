@@ -7,7 +7,7 @@ stages:
   jobs:
     - deployment: 
       environment:
-       name: dev
+       name: qa
        resourceType: virtualMachine
       strategy:
        runOnce:
