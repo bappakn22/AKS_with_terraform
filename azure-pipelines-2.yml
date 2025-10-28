@@ -16,4 +16,4 @@ stages:
            
            - task: CmdLine@2
              inputs:
-               script: 'sudo cp -r $(System.DefaultWorkingDirectory)/README.md /var/www/html/'
+               script: 'cp -r $(System.DefaultWorkingDirectory)/README.md /var/www/html/'
